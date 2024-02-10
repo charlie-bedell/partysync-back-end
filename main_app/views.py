@@ -6,7 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 ...
-from .serializers import PartySerializer, UserSerializer # add the UserSerizlier to the list
+from .serializers import PartySerializer, InvitationSerializer, ProfileSerializer, UserSerializer 
 ...
 
 # include the registration, login, and verification views below
