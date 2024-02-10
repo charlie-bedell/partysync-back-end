@@ -8,25 +8,25 @@ INVITE_STATUS = [
 ]
 
 class Profile(models.Model):
-  user = models.OneToOneField(User, on_delete=models.CASCADE),
+  user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
   # stretch goal - add image here
   def __str__(self):
     return self.user.username
 
 class Party(models.Model):
-  name = models.CharField(max_length=100),
-  location = models.CharField(max_length=100),
-  start_time = models.DateTimeField(required=True),
-  end_time = models.DateTimeField(blank=True, null=True),
-  description = models.TextField(),
-  host_id = models.ForeignKey(Profile, on_delete=models.CASCADE),
+  name = models.CharField(max_length=100)
+  location = models.CharField(max_length=100)
+  start_time = models.DateTimeField()
+  end_time = models.DateTimeField(blank=True, null=True)
+  description = models.TextField()
+  host = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='party')
 
   def __str__(self):
     return self.name
   
 class Invitation(models.Model):
-  party = models.ForeignKey(Party, on_delete=models.CASCADE),
-  invitee = models.ForeignKey(Profile, on_delete = models.CASCADE),
+  party = models.ForeignKey(Party, on_delete=models.CASCADE, related_name='invitation')
+  invitee = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name='invitation')
   status = models.CharField(max_length=7, choices=INVITE_STATUS, default=INVITE_STATUS[0][0])
 
 
