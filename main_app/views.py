@@ -1,7 +1,8 @@
 # from django.shortcuts import render
 from rest_framework import generics, status, permissions
-from rest_framework.views import APIView
+from rest_framework.views import APIView 
 from rest_framework.response import Response
+from rest_framework.generics import RetrieveAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveUpdateAPIView
 
 
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -14,6 +15,12 @@ from .models import Party, Profile, Invitation
 
 # include the registration, login, and verification views below
 # User Registration
+class Home(APIView):
+  def get(self,request):
+    content={'message': 'Welcome to the Boat Inventory api home route!'}
+    return Response(content)
+
+
 class CreateUserView(generics.CreateAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
@@ -69,12 +76,12 @@ class ProfileView(RetrieveAPIView):
     return self.request.user.profile
 
 # class CreatePartyView(CreateAPIView):
-#   def post
+#   def post():
 
 # class PartyDetailView(RetrieveUpdateDestroyAPIView):
-#   def get
-#   def put
-#   def delete
+#   def get():
+#   def put():
+#   def delete():
 
 
 # class InvitesView(  ListAPIView):
