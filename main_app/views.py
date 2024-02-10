@@ -1,12 +1,15 @@
-from django.shortcuts import render
-from rest_framework import generics, status, permissions # modify these imports to match
+# from django.shortcuts import render
+from rest_framework import generics, status, permissions
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
-# include the following imports
+
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 ...
 from .serializers import PartySerializer, InvitationSerializer, ProfileSerializer, UserSerializer 
+from .models import Party, Profile, Invitation 
 ...
 
 # include the registration, login, and verification views below
@@ -54,3 +57,29 @@ class VerifyUserView(APIView):
       'access': str(refresh.access_token),
       'user': UserSerializer(user).data
     })
+  
+
+class ProfileView(RetrieveAPIView):
+  serializer_class=ProfileSerializer
+  permission_classes=[permissions.IsAuthenticated]
+  queryset=Profile.objects.all()
+
+  def get_object(self):
+    content={'message': 'You are viewing a profile'}
+    return self.request.user.profile
+
+# class CreatePartyView(CreateAPIView):
+#   def post
+
+# class PartyDetailView(RetrieveUpdateDestroyAPIView):
+#   def get
+#   def put
+#   def delete
+
+
+# class InvitesView(  ListAPIView):
+#   def get
+
+# class InvitationView(RetrieveUpdateAPIView):
+#   def get
+#   def put
