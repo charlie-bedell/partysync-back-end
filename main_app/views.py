@@ -75,8 +75,14 @@ class ProfileView(RetrieveAPIView):
     content={'message': 'You are viewing a profile'}
     return self.request.user.profile
 
-# class CreatePartyView( CreateAPIView ):
-#   def post():
+# class BookCreateView(CreateAPIView):
+#     queryset = Book.objects.all()
+#     serializer_class = BookSerializer
+
+class CreatePartyView( CreateAPIView ):
+   queryset = Party.objects.all()
+   serializer_class = PartySerializer
+   permission_classes=[permissions.IsAuthenticated]
   
 # class InvitesView( ListAPIView ):
 #   def get

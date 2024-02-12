@@ -14,7 +14,7 @@ class Profile(models.Model):
     return self.user.username
 
 class Party(models.Model):
-  name = models.CharField(max_length=100)
+  party_name = models.CharField(max_length=100)
   location = models.CharField(max_length=100)
   start_time = models.DateTimeField()
   end_time = models.DateTimeField(blank=True, null=True)
