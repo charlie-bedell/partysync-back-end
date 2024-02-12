@@ -12,7 +12,7 @@ from rest_framework.generics import RetrieveAPIView, CreateAPIView, RetrieveUpda
 ...
 from .serializers import PartySerializer, InvitationSerializer, ProfileSerializer, UserSerializer 
 from .models import Party, Profile, Invitation 
-from .permissions import IsPartyHost
+from .permissions import IsPartyHost, IsPartyGuest
 ...
 
 # include the registration, login, and verification views below
@@ -112,7 +112,18 @@ class InvitationView(APIView):
         Invitation.send_invitations_to_all(party_id, host_profile)
         return Response({'message': 'Invitations sent successfully'})
   
+class InviteResponse(RetrieveUpdateDestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated, IsPartyGuest]
+    serializer_class = InvitationSerializer
+    queryset = Invitation.objects.all()
 
+    def perform_update(self, serializer):
+        status = serializer.validated_data.get('status')
+        if status:
+            serializer.save(status=status)
+        else:
+            return Response({'message': 'There was an error. Status was not provided in the request.'})
+            
 
   #  Host can edit and delete parties
   #  Invitations
