@@ -1,13 +1,14 @@
 # from django.shortcuts import render
-from rest_framework import generics, status, permissions
+
 from rest_framework.views import APIView 
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveUpdateAPIView
-
-
+from rest_framework import generics, status, permissions
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+
+from rest_framework.generics import RetrieveAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveUpdateAPIView
+
 ...
 from .serializers import PartySerializer, InvitationSerializer, ProfileSerializer, UserSerializer 
 from .models import Party, Profile, Invitation 
@@ -17,7 +18,7 @@ from .models import Party, Profile, Invitation
 # User Registration
 class Home(APIView):
   def get(self,request):
-    content={'message': 'Welcome to the Boat Inventory api home route!'}
+    content={'message': 'Welcome to the party api home route!'}
     return Response(content)
 
 
@@ -63,8 +64,7 @@ class VerifyUserView(APIView):
       'refresh': str(refresh),
       'access': str(refresh.access_token),
       'user': UserSerializer(user).data
-    })
-  
+    }) 
 
 class ProfileView(RetrieveAPIView):
   serializer_class=ProfileSerializer
@@ -75,18 +75,17 @@ class ProfileView(RetrieveAPIView):
     content={'message': 'You are viewing a profile'}
     return self.request.user.profile
 
-# class CreatePartyView(CreateAPIView):
+# class CreatePartyView( CreateAPIView ):
 #   def post():
+  
+# class InvitesView( ListAPIView ):
+#   def get
 
-# class PartyDetailView(RetrieveUpdateDestroyAPIView):
+# class PartyDetailView( RetrieveUpdateDestroyAPIView ):
 #   def get():
 #   def put():
 #   def delete():
 
-
-# class InvitesView(  ListAPIView):
-#   def get
-
-# class InvitationView(RetrieveUpdateAPIView):
+# class InvitationView( RetrieveUpdateAPIView ):
 #   def get
 #   def put
