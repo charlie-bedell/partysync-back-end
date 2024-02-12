@@ -29,8 +29,20 @@ class Invitation(models.Model):
   invitee = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name='invitation')
   status = models.CharField(max_length=7, choices=INVITE_STATUS, default=INVITE_STATUS[0][0])
 
-  def send_invitations_to_all(party_id, host_profile):
-          party = Party.objects.get(id=party_id, host=host_profile)
-          all_profiles = Profile.objects.exclude(id=host_profile.id)  # Exclude the host
+  # def send_invitations_to_all(party_id, host_profile):
+  #         party = Party.objects.get(id=party_id, host=host_profile)
+  #         all_profiles = Profile.objects.exclude(id=host_profile.id)  # Exclude the host
+  #         invitations = [Invitation(party=party, invitee=profile) for profile in all_profiles]
+  #         Invitation.objects.bulk_create(invitations)
+
+  @classmethod
+  def send_invitations_to_all(cls, party_id, host_profile):
+      try:
+          party = Party.objects.get(id=party_id, host_id=host_profile.id)
+          all_profiles = Profile.objects.exclude(id=host_profile.id)
           invitations = [Invitation(party=party, invitee=profile) for profile in all_profiles]
           Invitation.objects.bulk_create(invitations)
+      except Exception as e:
+          # Log the exception or handle it accordingly
+          print(f"Error sending invitations: {e}")
+          return False  # Indicate failure
