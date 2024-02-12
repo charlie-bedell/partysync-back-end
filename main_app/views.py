@@ -18,7 +18,7 @@ from .models import Party, Profile, Invitation
 # User Registration
 class Home(APIView):
   def get(self,request):
-    content={'message': 'Welcome to the party api home route!'}
+    content={'message': 'Welcome to the PartySYNC api home route!'}
     return Response(content)
 
 
