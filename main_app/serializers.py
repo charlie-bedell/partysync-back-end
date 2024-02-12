@@ -18,7 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )
+        Profile.objects.create(user=user)
+
         return user
+    
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
