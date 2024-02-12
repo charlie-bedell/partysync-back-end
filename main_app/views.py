@@ -93,14 +93,18 @@ class PartyDetailView( RetrieveUpdateDestroyAPIView ):
   # 
   # TKTKTK additional work is possible to create a readable url slug based on party_name but there are potential duplication issues.  
    
-# class InvitesView( ListAPIView ):
-#   def get
+
+  
+    # find all users in a database.  
+  #  add users to Invite node
 
 # class InvitationView( RetrieveUpdateAPIView ):
 #   def get
 #   def put
   
-
+#  can only do this if you are host of party:
+#  find all accounts, add accounts to 
 
   #  Host can edit and delete parties
   #  Invitations
+  #  
