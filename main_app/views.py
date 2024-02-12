@@ -12,10 +12,12 @@ from rest_framework.generics import RetrieveAPIView, CreateAPIView, RetrieveUpda
 ...
 from .serializers import PartySerializer, InvitationSerializer, ProfileSerializer, UserSerializer 
 from .models import Party, Profile, Invitation 
+from .permissions import IsPartyHost
 ...
 
 # include the registration, login, and verification views below
 # User Registration
+
 class Home(APIView):
   def get(self,request):
     content={'message': 'Welcome to the PartySYNC api home route!'}
@@ -75,22 +77,26 @@ class ProfileView(RetrieveAPIView):
     content={'message': 'You are viewing a profile'}
     return self.request.user.profile
 
-# class BookCreateView(CreateAPIView):
-#     queryset = Book.objects.all()
-#     serializer_class = BookSerializer
 
 class CreatePartyView( CreateAPIView ):
    queryset = Party.objects.all()
    serializer_class = PartySerializer
    permission_classes=[permissions.IsAuthenticated]
+
+   def perform_create(self, serializer):
+     serializer.save(host=self.request.user.profile)
+     
   
+
+class PartyDetailView( RetrieveUpdateDestroyAPIView ):
+  permission_classes=[permissions.IsAuthenticated, IsPartyHost ]
+  queryset = Party.objects.all()
+  serializer_class = PartySerializer
+  # 
+  # TKTKTK additional work is possible to create a readable url slug based on party_name but there are potential duplication issues.  
+   
 # class InvitesView( ListAPIView ):
 #   def get
-
-# class PartyDetailView( RetrieveUpdateDestroyAPIView ):
-#   def get():
-#   def put():
-#   def delete():
 
 # class InvitationView( RetrieveUpdateAPIView ):
 #   def get

@@ -28,10 +28,11 @@ class ProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ('user',)
 
 class PartySerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer(many= True, read_only=True)
+    host = ProfileSerializer(read_only=True)
     class Meta:
         model = Party
         fields = '__all__'
+        read_only_fields = ('host',)
 
 class InvitationSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)
