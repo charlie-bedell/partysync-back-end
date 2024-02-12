@@ -93,12 +93,24 @@ class PartyDetailView( RetrieveUpdateDestroyAPIView ):
   # 
   # TKTKTK additional work is possible to create a readable url slug based on party_name but there are potential duplication issues.  
    
-# class InvitesView( ListAPIView ):
-#   def get
+class InvitesView( ListAPIView ):
+    permission_classes=[ permissions.IsAuthenticated]
+    serializer_class = InvitationSerializer
 
-# class InvitationView( RetrieveUpdateAPIView ):
-#   def get
-#   def put
+    def get_queryset(self):
+            # Filter the queryset based on the currently authenticated user
+            user_profile = self.request.user.profile  # Assuming each user has a related Profile
+            return Invitation.objects.filter(invitee=user_profile)
+
+
+class InvitationView(APIView):
+    permission_classes = [permissions.IsAuthenticated, IsPartyHost]
+    serializer_class = InvitationSerializer 
+
+    def post(self, request, party_id):
+        host_profile = request.user.profile
+        Invitation.send_invitations_to_all(party_id, host_profile)
+        return Response({'message': 'Invitations sent successfully'})
   
 
 
