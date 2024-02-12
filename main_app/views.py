@@ -96,9 +96,13 @@ class PartyDetailView( RetrieveUpdateDestroyAPIView ):
 # class InvitesView( ListAPIView ):
 #   def get
 
-# class InvitationView( RetrieveUpdateAPIView ):
-#   def get
-#   def put
+class InvitationView(APIView):
+    permission_classes = [permissions.IsAuthenticated, IsPartyHost]
+    serializer_class = InvitationSerializer 
+
+    def post(self, request, party_id):
+        Invitation.send_invitations_to_all(party_id, request.user.profile)
+        return Response({'message': 'Invitations sent successfully'})
   
 
 

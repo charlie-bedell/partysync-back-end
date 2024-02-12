@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Home, CreateUserView, LoginView, VerifyUserView, ProfileView, CreatePartyView, PartyDetailView 
+from .views import Home, CreateUserView, LoginView, VerifyUserView, ProfileView, CreatePartyView, PartyDetailView, InvitationView 
 # InvitesView, InvitationView
 
 urlpatterns = [
@@ -12,6 +12,5 @@ urlpatterns = [
   path('party/', CreatePartyView.as_view(), name='create-party'),
   path('party/<int:pk>/', PartyDetailView.as_view(), name='party-detail'),
   # path('profile/invites/', InvitesView.as_view(), name='invites' ),
-  # path('profile/invite/<int:party_id>/', InvitationView.as_view(), name='invitation-view/' )  
-
+  path('profile/invite/<int:party_id>/', InvitationView.as_view(), name='invitation-view/' )  
 ]
