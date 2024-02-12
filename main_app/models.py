@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 INVITE_STATUS = [
   ('Pending', 'Pending'),
+  ('Maybe', 'Maybe'),
   ('Yes', 'Yes'),
   ('No', 'No')  
 ]
