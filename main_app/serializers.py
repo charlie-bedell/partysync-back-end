@@ -18,9 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )
-      
         return user
-
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
