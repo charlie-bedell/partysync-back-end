@@ -77,7 +77,6 @@ class ProfileView(RetrieveAPIView):
     content={'message': 'You are viewing a profile'}
     return self.request.user.profile
 
-
 class CreatePartyView( CreateAPIView ):
    queryset = Party.objects.all()
    serializer_class = PartySerializer
@@ -86,10 +85,9 @@ class CreatePartyView( CreateAPIView ):
    def perform_create(self, serializer):
      serializer.save(host=self.request.user.profile)
      
-  
 
 class PartyDetailView( RetrieveUpdateDestroyAPIView ):
-  permission_classes=[permissions.IsAuthenticated, IsPartyHost ]
+  permission_classes=[ permissions.IsAuthenticated, IsPartyHost ]
   queryset = Party.objects.all()
   serializer_class = PartySerializer
   # 
@@ -101,3 +99,8 @@ class PartyDetailView( RetrieveUpdateDestroyAPIView ):
 # class InvitationView( RetrieveUpdateAPIView ):
 #   def get
 #   def put
+  
+
+
+  #  Host can edit and delete parties
+  #  Invitations
