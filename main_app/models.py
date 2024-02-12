@@ -29,12 +29,6 @@ class Invitation(models.Model):
   invitee = models.ForeignKey(Profile, on_delete = models.CASCADE, related_name='invitation')
   status = models.CharField(max_length=7, choices=INVITE_STATUS, default=INVITE_STATUS[0][0])
 
-  # def send_invitations_to_all(party_id, host_profile):
-  #         party = Party.objects.get(id=party_id, host=host_profile)
-  #         all_profiles = Profile.objects.exclude(id=host_profile.id)  # Exclude the host
-  #         invitations = [Invitation(party=party, invitee=profile) for profile in all_profiles]
-  #         Invitation.objects.bulk_create(invitations)
-
   @classmethod
   def send_invitations_to_all(cls, party_id, host_profile):
       try:
@@ -46,3 +40,11 @@ class Invitation(models.Model):
           # Log the exception or handle it accordingly
           print(f"Error sending invitations: {e}")
           return False  # Indicate failure
+  
+  # @classmethod
+  # def respond_to_invite(cls, party_id, invitee_profile):
+  #   try:
+
+  #   except Exception as e:
+  #       print(f"Error responding to invitation: {e}")
+  #       return False 

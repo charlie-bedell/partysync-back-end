@@ -11,10 +11,8 @@ class IsPartyHost(permissions.BasePermission):
    
 
 class IsPartyGuest(permissions.BasePermission):
-  
-   def has_object_permission(self, request, view, obj):
-        # obj here is a Party instance
-        if not request.user or not request.user.is_authenticated:
+    def has_object_permission(self, request, view, obj):
+        if not request.user.is_authenticated:
             return False
-        return obj.host == request.user.profile
+        return obj.invitee == request.user.profile
 
