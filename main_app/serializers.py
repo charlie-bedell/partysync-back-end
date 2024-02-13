@@ -30,16 +30,40 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('user',)
 
+# class PartySerializer(serializers.ModelSerializer):
+#     host = ProfileSerializer(read_only=True)
+#     class Meta:
+#         model = Party
+#         fields = '__all__'
+#         read_only_fields = ('host',)
+        
 class PartySerializer(serializers.ModelSerializer):
     host = ProfileSerializer(read_only=True)
+    invitations = serializers.SerializerMethodField()
+
     class Meta:
         model = Party
-        fields = '__all__'
+        fields = '__all__'  
         read_only_fields = ('host',)
 
+    def get_invitations(self, obj):
+        if self.context.get('include_invitations', False):
+            invitations = Invitation.objects.filter(party=obj)
+            context = {'exclude_party': True}
+            return InvitationSerializer(invitations, many=True, read_only=True, context=context).data
+        return None
+
 class InvitationSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer(read_only=True)
-    party = PartySerializer(read_only=True)
+    invitee = ProfileSerializer(read_only=True)
+    # party = PartySerializer(read_only=True)
+
     class Meta:
         model = Invitation
         fields = '__all__'
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        if not self.context.get('exclude_party', False):
+            party_serializer=PartySerializer(instance.party, context=self.context)
+            ret['party'] = party_serializer.data
+        return ret

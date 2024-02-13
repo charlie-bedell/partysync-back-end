@@ -47,11 +47,11 @@ SECRET_KEY=env('SECRET_KEY')
 # If you want to connect locally to the database you may need them
 # Something to be aware of, nothing more.
 
-# PGDATABASE=env('PGDATABASE')
-# PGHOST=env('PGHOST')
-# PGPASSWORD=env('PGPASSWORD')
-# PGPORT=env('PGPORT')
-# PGUSER=env('PGUSER')
+PGDATABASE=env('PGDATABASE')
+PGHOST=env('PGHOST')
+PGPASSWORD=env('PGPASSWORD')
+PGPORT=env('PGPORT')
+PGUSER=env('PGUSER')
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Adjust the port if your frontend runs on a different one
@@ -110,23 +110,24 @@ REST_FRAMEWORK = {
     )
 }
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+# Database - two options.  switch them out to test on heroku or on local
 
-DATABASES = {
-    'default': 
-        dj_database_url.config('DATABASE_URL')
-}
-
+# HEROKU
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'party_sync',
-#         'USER': 'party_sync_admin',
-#         'PASSWORD': 'password',
-#         'HOST': 'localhost'
-#     }
+#     'default': 
+#         dj_database_url.config('DATABASE_URL')
 # }
+
+# LOCAL
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'party_sync',
+        'USER': 'party_sync_admin',
+        'PASSWORD': 'password',
+        'HOST': 'localhost'
+    }
+}
 
 
 # Password validation

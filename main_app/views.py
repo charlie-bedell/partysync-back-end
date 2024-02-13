@@ -85,13 +85,40 @@ class CreatePartyView( CreateAPIView ):
    def perform_create(self, serializer):
      serializer.save(host=self.request.user.profile)
      
+# EARLIER VERSION
+# class PartyDetailView( RetrieveUpdateDestroyAPIView ):
+  # permission_classes=[ permissions.IsAuthenticated, IsPartyHost ]
+  # queryset = Party.objects.all()
+  # serializer_class = PartySerializer
 
 class PartyDetailView( RetrieveUpdateDestroyAPIView ):
-  permission_classes=[ permissions.IsAuthenticated, IsPartyHost ]
+  permission_classes=[ permissions.IsAuthenticated ]
   queryset = Party.objects.all()
   serializer_class = PartySerializer
-  # 
-  # TKTKTK additional work is possible to create a readable url slug based on party_name but there are potential duplication issues.  
+
+  def get_serializer_context(self):
+    context = super().get_serializer_context()
+    if self.request.method == 'GET':
+        context['include_invitations'] = True
+    return context
+
+  def get_permissions(self):
+      if self.request.method == 'GET':
+          permission_classes = [permissions.IsAuthenticated]
+      else:
+          permission_classes = [IsPartyHost]
+      return [permission() for permission in permission_classes]
+  
+
+
+class HostView ( ListAPIView ):
+  permission_classes = [permissions.IsAuthenticated]
+  serializer_class = PartySerializer
+  queryset = Party.objects.all()
+  def get_queryset(self):
+    user_profile = self.request.user.profile  
+    return Party.objects.filter(host=user_profile)
+  
    
 class InvitesView( ListAPIView ):
     permission_classes=[ permissions.IsAuthenticated]
@@ -107,10 +134,13 @@ class InvitationView(APIView):
     permission_classes = [permissions.IsAuthenticated, IsPartyHost]
     serializer_class = InvitationSerializer 
 
-    def post(self, request, party_id):
+    def post(self, request, *args, **kwargs):
+        party_id = self.kwargs.get('party_id')
         host_profile = request.user.profile
-        Invitation.send_invitations_to_all(party_id, host_profile)
-        return Response({'message': 'Invitations sent successfully'})
+        if Invitation.send_invitations_to_all(party_id, host_profile):
+            return Response({'message': 'Invitations sent successfully'})
+        else:
+            return Response({'message': 'Failed to send invitations'}, status=400)
   
 class InviteResponse(RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated, IsPartyGuest]
