@@ -35,10 +35,14 @@ class Invitation(models.Model):
       try:
           party = Party.objects.get(id=party_id, host_id=host_profile.id)
           all_profiles = Profile.objects.exclude(id=host_profile.id)
-          invitations = [Invitation(party=party, invitee=profile) for profile in all_profiles]
-          Invitation.objects.bulk_create(invitations)
-      except Exception as e:
-          # Log the exception or handle it accordingly
+          for profile in all_profiles:
+              if not cls.objects.filter(party=party, invitee=profile).exists():
+                cls.objects.create(party=party, invitee=profile)
+      except Party.DoesNotExist:
+              print(f"Party with id {party_id} does not exist.")
+              return False
+      except Exception as e:          
           print(f"Error sending invitations: {e}")
-          return False  # Indicate failure
+          return False
+      return True
   

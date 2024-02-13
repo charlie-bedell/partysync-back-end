@@ -115,10 +115,13 @@ class InvitationView(APIView):
     permission_classes = [permissions.IsAuthenticated, IsPartyHost]
     serializer_class = InvitationSerializer 
 
-    def post(self, request, party_id):
+    def post(self, request, *args, **kwargs):
+        party_id = self.kwargs.get('party_id')
         host_profile = request.user.profile
-        Invitation.send_invitations_to_all(party_id, host_profile)
-        return Response({'message': 'Invitations sent successfully'})
+        if Invitation.send_invitations_to_all(party_id, host_profile):
+            return Response({'message': 'Invitations sent successfully'})
+        else:
+            return Response({'message': 'Failed to send invitations'}, status=400)
   
 class InviteResponse(RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated, IsPartyGuest]
