@@ -13,6 +13,6 @@ urlpatterns = [
   path('party/<int:pk>/', PartyDetailView.as_view(), name='party-detail'),
   path('profile/invites/', InvitesView.as_view(), name='invites' ),
   path('profile/invite/<int:pk>/response/', InviteResponse.as_view(), name='invite-response'),  
-  path('/invite/<int:party_id>/send/', InvitationView.as_view(), name='invitation-view/  ' ),
+  path('invite/<int:party_id>/send/', InvitationView.as_view(), name='invitation-view/  ' ),
   path('profile/party/all-host/', HostView.as_view(), name='all-hosts-view')
 ]

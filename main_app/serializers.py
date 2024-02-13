@@ -30,13 +30,27 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('user',)
 
+# class PartySerializer(serializers.ModelSerializer):
+#     host = ProfileSerializer(read_only=True)
+#     class Meta:
+#         model = Party
+#         fields = '__all__'
+#         read_only_fields = ('host',)
+        
 class PartySerializer(serializers.ModelSerializer):
-    invitations = InvitationSerializer(many=True, read_only=True, source='invitation')
     host = ProfileSerializer(read_only=True)
+    invitations = serializers.SerializerMethodField()
+
     class Meta:
         model = Party
-        fields = '__all__'
+        fields = '__all__'  
         read_only_fields = ('host',)
+
+    def get_invitations(self, obj):
+        if self.context.get('include_invitations', False):
+            invitations = Invitation.objects.filter(party=obj)
+            return InvitationSerializer(invitations, many=True, read_only=True, context=self.context).data
+        return None
 
 class InvitationSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(read_only=True)

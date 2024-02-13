@@ -92,13 +92,23 @@ class CreatePartyView( CreateAPIView ):
   # serializer_class = PartySerializer
 
 class PartyDetailView( RetrieveUpdateDestroyAPIView ):
-  permission_classes=[ permissions.IsAuthenticated, IsPartyHost ]
+  permission_classes=[ permissions.IsAuthenticated ]
   queryset = Party.objects.all()
   serializer_class = PartySerializer
-  def get_queryset(Party):
-    
-    user_profile = self.request.user.profile  # Assuming each user has a related Profile
-    return Invitation.objects.filter(invitee=user_profile)
+
+  def get_serializer_context(self):
+    context = super().get_serializer_context()
+    if self.request.method == 'GET':
+        context['include_invitations'] = True
+    return context
+
+  def get_permissions(self):
+      if self.request.method == 'GET':
+          permission_classes = [permissions.IsAuthenticated]
+      else:
+          permission_classes = [IsPartyHost]
+      return [permission() for permission in permission_classes]
+  
 
 
 class HostView ( ListAPIView ):
