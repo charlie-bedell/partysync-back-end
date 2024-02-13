@@ -7,7 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
-from rest_framework.generics import RetrieveAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import RetrieveAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 
 ...
 from .serializers import PartySerializer, InvitationSerializer, ProfileSerializer, UserSerializer 
@@ -15,8 +15,16 @@ from .models import Party, Profile, Invitation
 from .permissions import IsPartyHost, IsPartyGuest
 ...
 
-# include the registration, login, and verification views below
-# User Registration
+...
+from django.http import Http404
+from django.http import Http404
+from rest_framework.generics import RetrieveAPIView
+from .models import Profile
+from .serializers import ProfileSerializer
+from .error_handling import ProfileNotFound, PartyNotFound, InvitationNotFound
+
+...
+
 
 class Home(APIView):
   def get(self,request):
@@ -74,9 +82,12 @@ class ProfileView(RetrieveAPIView):
   queryset=Profile.objects.all()
 
   def get_object(self):
-    content={'message': 'You are viewing a profile'}
-    return self.request.user.profile
-
+    try:
+        return self.request.user.profile
+    except Profile.DoesNotExist:
+        # If the profile does not exist, raise a 404 error
+        raise ProfileNotFound()
+        
 class CreatePartyView( CreateAPIView ):
    queryset = Party.objects.all()
    serializer_class = PartySerializer
@@ -84,12 +95,6 @@ class CreatePartyView( CreateAPIView ):
 
    def perform_create(self, serializer):
      serializer.save(host=self.request.user.profile)
-     
-# EARLIER VERSION
-# class PartyDetailView( RetrieveUpdateDestroyAPIView ):
-  # permission_classes=[ permissions.IsAuthenticated, IsPartyHost ]
-  # queryset = Party.objects.all()
-  # serializer_class = PartySerializer
 
 class PartyDetailView( RetrieveUpdateDestroyAPIView ):
   permission_classes=[ permissions.IsAuthenticated ]
@@ -103,11 +108,14 @@ class PartyDetailView( RetrieveUpdateDestroyAPIView ):
     return context
 
   def get_permissions(self):
+    try:
       if self.request.method == 'GET':
           permission_classes = [permissions.IsAuthenticated]
       else:
           permission_classes = [IsPartyHost]
       return [permission() for permission in permission_classes]
+    except Party.DoesNotExist:
+       raise PartyNotFound()
   
 
 
@@ -116,9 +124,11 @@ class HostView ( ListAPIView ):
   serializer_class = PartySerializer
   queryset = Party.objects.all()
   def get_queryset(self):
-    user_profile = self.request.user.profile  
-    return Party.objects.filter(host=user_profile)
-  
+    try:
+      user_profile = self.request.user.profile  
+      return Party.objects.filter(host=user_profile)
+    except Party.objects.doesnotexist:
+       return Response({'message': 'No hosted parties found'}, status=400) 
    
 class InvitesView( ListAPIView ):
     permission_classes=[ permissions.IsAuthenticated]

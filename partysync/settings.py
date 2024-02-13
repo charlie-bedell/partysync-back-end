@@ -107,7 +107,8 @@ WSGI_APPLICATION = 'partysync.wsgi.application'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'EXCEPTION_HANDLER': ('main_app.error_handling.custom_exception_handler')
 }
 
 # Database - two options.  switch them out to test on heroku or on local
