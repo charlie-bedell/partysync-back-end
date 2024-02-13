@@ -31,6 +31,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ('user',)
 
 class PartySerializer(serializers.ModelSerializer):
+    invitations = InvitationSerializer(many=True, read_only=True, source='invitation')
     host = ProfileSerializer(read_only=True)
     class Meta:
         model = Party

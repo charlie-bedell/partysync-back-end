@@ -90,6 +90,10 @@ class PartyDetailView( RetrieveUpdateDestroyAPIView ):
   permission_classes=[ permissions.IsAuthenticated, IsPartyHost ]
   queryset = Party.objects.all()
   serializer_class = PartySerializer
+  def get_queryset(Party):
+    
+    user_profile = self.request.user.profile  # Assuming each user has a related Profile
+    return Invitation.objects.filter(invitee=user_profile)
 
 
 class HostView ( ListAPIView ):
