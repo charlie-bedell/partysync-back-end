@@ -42,10 +42,3 @@ class Invitation(models.Model):
           print(f"Error sending invitations: {e}")
           return False  # Indicate failure
   
-  # @classmethod
-  # def respond_to_invite(cls, party_id, invitee_profile):
-  #   try:
-
-  #   except Exception as e:
-  #       print(f"Error responding to invitation: {e}")
-  #       return False 
