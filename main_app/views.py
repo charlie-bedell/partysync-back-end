@@ -90,8 +90,13 @@ class PartyDetailView( RetrieveUpdateDestroyAPIView ):
   permission_classes=[ permissions.IsAuthenticated, IsPartyHost ]
   queryset = Party.objects.all()
   serializer_class = PartySerializer
-  # 
-  # TKTKTK additional work is possible to create a readable url slug based on party_name but there are potential duplication issues.  
+
+class PartyAllInviteView ( ListAPIView ):
+  permission_classes=[ permissions.IsAuthenticated]
+  serializer_class = PartySerializer
+  
+
+
    
 class InvitesView( ListAPIView ):
     permission_classes=[ permissions.IsAuthenticated]
