@@ -124,20 +124,20 @@ class HostView ( ListAPIView ):
   serializer_class = PartySerializer
   queryset = Party.objects.all()
   def get_queryset(self):
-    try:
       user_profile = self.request.user.profile  
       return Party.objects.filter(host=user_profile)
-    except Party.objects.doesnotexist:
-       return Response({'message': 'No hosted parties found'}, status=400) 
+   
    
 class InvitesView( ListAPIView ):
-    permission_classes=[ permissions.IsAuthenticated]
-    serializer_class = InvitationSerializer
+  permission_classes=[ permissions.IsAuthenticated]
+  serializer_class = InvitationSerializer
 
-    def get_queryset(self):
-            # Filter the queryset based on the currently authenticated user
-            user_profile = self.request.user.profile  # Assuming each user has a related Profile
-            return Invitation.objects.filter(invitee=user_profile)
+  def get_queryset(self):
+    try:
+      user_profile = self.request.user.profile  
+      return Invitation.objects.filter(invitee=user_profile)
+    except Invitation.DoesNotExist:
+        raise InvitationNotFound()
 
 
 class InvitationView(APIView):
