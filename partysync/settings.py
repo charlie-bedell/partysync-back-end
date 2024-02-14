@@ -113,21 +113,21 @@ REST_FRAMEWORK = {
 # Database - two options.  switch them out to test on heroku or on local
 
 # HEROKU
-# DATABASES = {
-#     'default': 
-#         dj_database_url.config('DATABASE_URL')
-# }
+DATABASES = {
+    'default': 
+        dj_database_url.config('DATABASE_URL')
+}
 
 # LOCAL
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'party_sync',
-        'USER': 'party_sync_admin',
-        'PASSWORD': 'password',
-        'HOST': 'localhost'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'party_sync',
+#         'USER': 'party_sync_admin',
+#         'PASSWORD': 'password',
+#         'HOST': 'localhost'
+#     }
+# }
 
 
 # Password validation
