@@ -85,7 +85,6 @@ class ProfileView(RetrieveAPIView):
     try:
         return self.request.user.profile
     except Profile.DoesNotExist:
-        # If the profile does not exist, raise a 404 error
         raise ProfileNotFound()
         
 class CreatePartyView( CreateAPIView ):
