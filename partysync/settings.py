@@ -54,7 +54,7 @@ SECRET_KEY=env('SECRET_KEY')
 # PGUSER=env('PGUSER')
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Adjust the port if your frontend runs on a different one
+    "http://localhost:3000", "https://partysync.netlify.app"  # Adjust the port if your frontend runs on a different one
 ]
 
 # Application definition
