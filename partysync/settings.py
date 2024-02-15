@@ -45,7 +45,7 @@ SECRET_KEY=env('SECRET_KEY')
 
 # These are not required.
 # If you want to connect locally to the database you may need them
-# Something to be aware of, nothing more.
+# Something to be aware of, nothing more..
 
 # PGDATABASE=env('PGDATABASE')
 # PGHOST=env('PGHOST')
