@@ -11,13 +11,13 @@ PartySync is a full-stack app that uses the Python-based Django REST Framework w
 Front-end repo: https://github.com/charlie-bedell/partysync-front-end
 
 ## Team
-([Lauren Marsh](https://github.com/laurendea)) - Frontend, Readme, CSS
+[Lauren Marsh](https://github.com/laurendea) - Frontend, Readme, CSS
 
-([Stephen Kelly](https://github.com/Stephen-c-Kelly)) - Backend, Project Manager
+([Stephen Kelly](https://github.com/Stephen-c-Kelly) - Backend, Project Manager
 
-([Adekunle Shennaike](https://github.com/AdeShennaike)) - Backend, Database manager
+[Adekunle Shennaike](https://github.com/AdeShennaike) - Backend, Database manager
 
-([Charlie Bedell](https://github.com/charlie-bedell)) - Full Stack Developer, git owner
+[Charlie Bedell](https://github.com/charlie-bedell) - Full Stack Developer, git owner
 
 
 ## Technologies used
@@ -29,10 +29,10 @@ Front-end repo: https://github.com/charlie-bedell/partysync-front-end
 - GitHub
 
 # Resources
-- ([Django REST Framework - Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/))
-- ([Django Generic Views Documentation](https://www.django-rest-framework.org/api-guide/generic-views/))
-- ([Routing Table Spreadsheet](https://docs.google.com/spreadsheets/d/1Q1idavv3LZY2kAkccbwiL8dy9StduikUcQwfDO6hsJM/edit?usp=sharing))
-- ([Gregorio Moreta Django Authentication and Deployment](https://github.com/Gregorio-Moreta/django-cat-collector/tree/heroku-deployment))
-- ([Postgres Documentation](https://www.postgresql.org/docs/))
+- [Django REST Framework - Quickstart](https://www.django-rest-framework.org/tutorial/quickstart/)
+- [Django Generic Views Documentation](https://www.django-rest-framework.org/api-guide/generic-views/)
+- [Routing Table Spreadsheet](https://docs.google.com/spreadsheets/d/1Q1idavv3LZY2kAkccbwiL8dy9StduikUcQwfDO6hsJM/edit?usp=sharing)
+- [Gregorio Moreta Django Authentication and Deployment](https://github.com/Gregorio-Moreta/django-cat-collector/tree/heroku-deployment)
+- [Postgres Documentation](https://www.postgresql.org/docs/)
 
 
