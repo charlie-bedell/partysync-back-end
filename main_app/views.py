@@ -85,12 +85,6 @@ class CreatePartyView( CreateAPIView ):
    def perform_create(self, serializer):
      serializer.save(host=self.request.user.profile)
      
-# EARLIER VERSION
-# class PartyDetailView( RetrieveUpdateDestroyAPIView ):
-  # permission_classes=[ permissions.IsAuthenticated, IsPartyHost ]
-  # queryset = Party.objects.all()
-  # serializer_class = PartySerializer
-
 class PartyDetailView( RetrieveUpdateDestroyAPIView ):
   permission_classes=[ permissions.IsAuthenticated ]
   queryset = Party.objects.all()
