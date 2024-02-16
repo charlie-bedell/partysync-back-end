@@ -147,6 +147,18 @@ class InviteResponse(RetrieveUpdateDestroyAPIView):
             serializer.save(status=status)
         else:
             return Response({'message': 'There was an error. Status was not provided in the request.'})
+        
+    def destroy(self, request, *args, **kwargs):
+       invitation = self.get_object()
+       if request.user.id==invitation.invitee.user.id:
+          return super().destroy(request, *args, **kwargs)
+       else:
+          return Response({'message': 'You are not authorized to delete this invitation.'}, status=status.HTTP_403_FORBIDDEN)
+
+            
+        
+ 
+      
             
 
   #  Host can edit and delete parties
